@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<robot name="IRED">
+
+    <!-- ===================================================== -->
+    <!-- MATERIALS                                             -->
+    <!-- ===================================================== -->
+
+    <material name="blue">
+        <color rgba="0.0 0.3 0.8 1.0"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0.05 0.05 0.05 1.0"/>
+    </material>
+
+    <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+
+    <material name="red">
+        <color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+
+
+    <!-- ===================================================== -->
+    <!-- LINKS                                                  -->
+    <!-- ===================================================== -->
+
+    <!-- Ground/reference frame -->
+    <link name="base_footprint"/>
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN BODY                                              -->
+    <!-- ===================================================== -->
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.43 0.43 0.10"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- FRONT LEFT WHEEL                                       -->
+    <!-- ===================================================== -->
+
+    <link name="wheel_front_left_link">
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 1.5708 -2.3562"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.04"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- FRONT RIGHT WHEEL                                      -->
+    <!-- ===================================================== -->
+
+    <link name="wheel_front_right_link">
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 1.5708 2.3562"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.04"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- REAR LEFT WHEEL                                        -->
+    <!-- ===================================================== -->
+
+    <link name="wheel_rear_left_link">
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 1.5708 2.3562"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.04"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- REAR RIGHT WHEEL                                       -->
+    <!-- ===================================================== -->
+
+    <link name="wheel_rear_right_link">
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 1.5708 -2.3562"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.04"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- LiDAR                                                   -->
+    <!-- ===================================================== -->
+
+    <link name="base_scan">
+        <visual>
+            <!-- No rotation here -->
+            <origin xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.025"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- ArUco CAMERA                                            -->
+    <!-- ===================================================== -->
+
+    <link name="aruco_camera_link">
+
+        <!-- Camera body -->
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <box size="0.06 0.04 0.04"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+
+        <!-- Camera lens -->
+        <visual>
+            <origin xyz="0.032 0 0"
+                    rpy="0 1.5708 0"/>
+            <geometry>
+                <cylinder radius="0.012" length="0.01"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+    </link>
+
+
+    <!-- ===================================================== -->
+    <!-- CARTESIAN REFERENCE FRAME                              -->
+    <!-- ===================================================== -->
+
+    <link name="base_cartesian_link"/>
+
+
+    <!-- ===================================================== -->
+    <!-- JOINTS                                                  -->
+    <!-- ===================================================== -->
+
+    <!-- ===================================================== -->
+    <!-- BASE                                                   -->
+    <!-- ===================================================== -->
+
+    <!-- base_link center is 11.5 cm above ground -->
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+
+        <origin xyz="0.0 0.0 0.115"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- LiDAR JOINT                                             -->
+    <!-- ===================================================== -->
+
+    <!--
+        base_footprint = 0.115 m
+        base_link -> base_scan = 0.285 m
+
+        Total LiDAR height:
+        0.115 + 0.285 = 0.400 m
+
+        LiDAR X axis is rotated 180 degrees around Z.
+    -->
+
+    <joint name="scan_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_scan"/>
+
+        <origin xyz="0.0 0.0 0.285"
+                rpy="0.0 0.0 3.14159"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- ARUCO CAMERA JOINT                                      -->
+    <!-- ===================================================== -->
+
+    <!--
+        Camera:
+        X = 0.15 m in front
+        Z = 0.115 + 0.235 = 0.350 m
+    -->
+
+    <joint name="aruco_camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="aruco_camera_link"/>
+
+        <origin xyz="0.15 0.0 0.235"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- CARTESIAN FRAME JOINT                                   -->
+    <!-- ===================================================== -->
+
+    <joint name="base_cartesian_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_cartesian_link"/>
+
+        <origin xyz="0.0 0.0 0.0"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- FRONT RIGHT WHEEL                                      -->
+    <!-- ===================================================== -->
+
+    <joint name="wheel_front_right_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel_front_right_link"/>
+
+        <axis xyz="0 0 1"/>
+
+        <origin xyz="0.15 -0.15 -0.05"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- FRONT LEFT WHEEL                                       -->
+    <!-- ===================================================== -->
+
+    <joint name="wheel_front_left_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel_front_left_link"/>
+
+        <axis xyz="0 0 1"/>
+
+        <origin xyz="0.15 0.15 -0.05"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- REAR RIGHT WHEEL                                       -->
+    <!-- ===================================================== -->
+
+    <joint name="wheel_rear_right_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel_rear_right_link"/>
+
+        <axis xyz="0 0 1"/>
+
+        <origin xyz="-0.15 -0.15 -0.05"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+    <!-- ===================================================== -->
+    <!-- REAR LEFT WHEEL                                        -->
+    <!-- ===================================================== -->
+
+    <joint name="wheel_rear_left_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel_rear_left_link"/>
+
+        <axis xyz="0 0 1"/>
+
+        <origin xyz="-0.15 0.15 -0.05"
+                rpy="0.0 0.0 0.0"/>
+    </joint>
+
+</robot>

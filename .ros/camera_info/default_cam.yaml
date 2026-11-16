@@ -1,0 +1,52 @@
+# image_width: 1280
+# image_height: 720
+# camera_name: c270_hd_webcam
+
+# camera_matrix:
+#   rows: 3
+#   cols: 3
+#   data: [1000.0, 0.0, 640.0,
+#          0.0, 1000.0, 360.0,
+#          0.0, 0.0, 1.0]
+
+# distortion_model: plumb_bob
+
+# distortion_coefficients:
+#   rows: 1
+#   cols: 5
+#   data: [0.0, 0.0, 0.0, 0.0, 0.0]
+
+# rectification_matrix:
+#   rows: 3
+#   cols: 3
+#   data: [1.0, 0.0, 0.0,
+#          0.0, 1.0, 0.0,
+#          0.0, 0.0, 1.0]
+
+# projection_matrix:
+#   rows: 3
+#   cols: 4
+#   data: [1000.0, 0.0, 640.0, 0.0,
+#          0.0, 1000.0, 360.0, 0.0,
+#          0.0, 0.0, 1.0, 0.0]
+
+image_width: 640
+image_height: 480
+camera_name: default_cam
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [950.421591, 0.000000, 296.335086, 0.000000, 951.066418, 236.980749, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [0.287688, -1.539537, -0.003079, -0.012714, 4.128351]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [971.833374, 0.000000, 292.005407, 0.000000, 0.000000, 977.635559, 235.749508, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]
